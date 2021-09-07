@@ -28,21 +28,35 @@ public class MyShapeSolver extends ShapeSolver {
      * undisplay can be made.
      */
     public void solve() {
-
-        // ****dummied up****
-        // always "finds" a solution at row 3, column 4, with a 90-degree clockwise orientation
+        matchShape:
+        //-----Reference-----
         //Log.d("SOLVE", "This is a test for the console");
-        //loop through the entire world array with each orientation of the shape
-        for (int i = 0; i < 40; i++){
-            for (int j = 0; j < 40; j++){
-                for (Orientation or : Orientation.values()) {
-                    display(i,j,or);
-                    Log.d("Object", "Test: " + or.toString());
-                }
-            }
-
-        }
         //display(3, 4, Orientation.ROTATE_CLOCKWISE);
+        //loop through the entire world array with each orientation of the shape
+        for (int i = 0; i <= this.world.length - this.shape.length; i++){
+            for (int j = 0; j <= this.world.length - this.shape.length; j++) {
+                Log.d("Coord", "("+i+","+j+")");
+                //assume that this will be a match
+                //loop through the shape object and match each pixel
+                //(i,j) is a shifting point in the world
+                //(k,l) is top left corner of shape
+                boolean match = true;
+                for (int k = 0; k < this.shape.length; k++) {
+                    for (int l = 0; l < this.shape.length; l++) {
+                        Log.d("SOLUTION", ""+this.shape[k][l] + ":" + this.world[i + k][j + l]);
+                        if (this.shape[k][l] != this.world[i + k][j + l]) {
+                            match = false;
+                        }
+                    }
+                }
+                display(i, j, Orientation.ROTATE_NONE);
+                if (match == true){
+                    break matchShape;
+                }
+                undisplay();
+            }
+        }
+
 
         //Step 1: get input from the array
 
