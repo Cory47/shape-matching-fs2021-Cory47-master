@@ -28,14 +28,49 @@ public class MyShapeSolver extends ShapeSolver {
      * undisplay can be made.
      */
     public void solve() {
-        matchShape:
+        if (match(Orientation.ROTATE_NONE)){
+            return;
+        }
+        rotateCW(this.shape);
+        if (match(Orientation.ROTATE_CLOCKWISE)) {
+            return;
+        }
+        rotateCW(this.shape);
+        if (match(Orientation.ROTATE_180)){
+            return;
+        }
+        rotateCW(this.shape);
+        if(match(Orientation.ROTATE_COUNTERCLOCKWISE)){
+            return;
+        }
+        rotateCW(this.shape);
+        reverseArray(this.shape);
+        if (match(Orientation.ROTATE_NONE_REV)){
+            return;
+        }
+        rotateCW(this.shape);
+        if (match(Orientation.ROTATE_CLOCKWISE_REV)) {
+            return;
+        }
+        rotateCW(this.shape);
+        if (match(Orientation.ROTATE_180_REV)){
+            return;
+        }
+        rotateCW(this.shape);
+        if(match(Orientation.ROTATE_COUNTERCLOCKWISE_REV)){
+            return;
+        }
+        undisplay();
+
+    }
+    public boolean match(Orientation or){
         //-----Reference-----
         //Log.d("SOLVE", "This is a test for the console");
         //display(3, 4, Orientation.ROTATE_CLOCKWISE);
         //loop through the entire world array with each orientation of the shape
         for (int i = 0; i <= this.world.length - this.shape.length; i++){
             for (int j = 0; j <= this.world.length - this.shape.length; j++) {
-                Log.d("Coord", "("+i+","+j+")");
+                Log.d("Coord", "(" + i + "," + j + ")");
                 //assume that this will be a match
                 //loop through the shape object and match each pixel
                 //(i,j) is a shifting point in the world
@@ -43,37 +78,82 @@ public class MyShapeSolver extends ShapeSolver {
                 boolean match = true;
                 for (int k = 0; k < this.shape.length; k++) {
                     for (int l = 0; l < this.shape.length; l++) {
-                        Log.d("SOLUTION", ""+this.shape[k][l] + ":" + this.world[i + k][j + l]);
-                        if (this.shape[k][l] != this.world[i + k][j + l]) {
+                        Log.d("SOLUTION", "" + this.shape[k][l] + ":" + this.world[i + k][j + l]);
+                        if (this.shape[k][l] && this.world[i + k][j + l]) {
                             match = false;
                         }
                     }
                 }
-                display(i, j, Orientation.ROTATE_NONE);
-                if (match == true){
-                    break matchShape;
+                display(i, j, or);
+                if (match) {
+                    return true;
                 }
-                undisplay();
             }
         }
-
-
-        //Step 1: get input from the array
-
-
-
-        //Step 2: loop through the entire array looking for a match
-        //Step 3: rotate clockwise and repeat for all orientations and mirrors
-        //Step 4: if no match, call undisplay();
+        return false;
     }
+    //This method was adapted from:
+    // https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+    static void rotateCW(boolean shape[][]) {
+        // Traverse each cycle
+        for (int i = 0; i < shape.length / 2; i++)
+        {
+            for (int j = i; j < shape.length - i - 1; j++)
+            {
+                // Swap elements of each cycle
+                // in clockwise direction
+                boolean temp = shape[i][j];
+                shape[i][j] = shape[shape.length - 1 - j][i];
+                shape[shape.length - 1 - j][i] = shape[shape.length - 1 - i][shape.length - 1 - j];
+                shape[shape.length - 1 - i][shape.length - 1 - j] = shape[j][shape.length - 1 - i];
+                shape[j][shape.length - 1 - i] = temp;
+            }
+        }
+    }
+    //adapted from:
+    //https://www.geeksforgeeks.org/program-to-reverse-the-rows-in-a-2d-array/
+    static void reverseArray(boolean shape[][]) {
 
+        // Traverse each row of shape[][]
+        for (int i = 0; i < shape.length; i++) {
+
+            // Initialise start and end index
+            int start = 0;
+            int end = shape.length - 1;
+
+            // Till start < end, swap the element
+            // at start and end index
+            while (start < end) {
+
+                // Swap the element
+                boolean temp = shape[i][start];
+                shape[i][start] = shape[i][end];
+                shape[i][end] = temp;
+
+                // Increment start and decrement
+                // end for next pair of swapping
+                start++;
+                end--;
+            }
+        }
+    }
     /**
      * Checks if the shape is well-formed: has at least one square, and has all squares connected.
      *
      * @return whether the shape is well-formed
      */
     public boolean check() {
+        //stretch goal
+        /*
+        for (int i = 0; i < this.shape.length; i++) {
+            for (int j = 0; j < this.shape.length; j++) {
+                if () {
+
+                }
+            }
+        }*/
         return Math.random() < 0.5;
+
     }
 
 }
