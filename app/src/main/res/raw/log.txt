@@ -1,1 +1,24 @@
-Log your changes here.
+September 6 2021
+    Project forked from github.
+    Learned to use Log.h for debugging.
+    Identified how to use shape and world objects.
+    Created nested loop to loop through world object.
+    Created another nested loop to loop through shape object.
+    Was able to loop through world object with shape object
+    committed and pushed project to github
+    Added comparison between shape and world object.
+    As the shape object looped through the world, if the black squares of the shape matched
+        the blue squares of the world, it would return true.
+    Committed and pushed project to github
+September 10 2021
+    Reversed the boolean matching shape and world object
+    Shape now fits into the world, instead of matching with the blue squares
+    Talked to professor Tribelhorn about possible edge case where shapes on very edge wont match
+September 11 2021
+    Added match, rotateCW, and reverseArray methods
+    RotateCW method was created with help from: www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+    reverseArray method was created with help from: https://www.geeksforgeeks.org/program-to-reverse-the-rows-in-a-2d-array/
+    I moved all code from solve into match method so it could be called multiple times
+    Added to solve method, so it tests all rotations of the shape object
+    Pushed project to github
+

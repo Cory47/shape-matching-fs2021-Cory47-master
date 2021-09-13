@@ -28,6 +28,7 @@ public class MyShapeSolver extends ShapeSolver {
      * undisplay can be made.
      */
     public void solve() {
+        //cropShape(this.shape);
         if (match(Orientation.ROTATE_NONE)){
             return;
         }
@@ -49,7 +50,7 @@ public class MyShapeSolver extends ShapeSolver {
             return;
         }
         rotateCW(this.shape);
-        if (match(Orientation.ROTATE_CLOCKWISE_REV)) {
+        if (match(Orientation.ROTATE_COUNTERCLOCKWISE_REV)) {
             return;
         }
         rotateCW(this.shape);
@@ -57,25 +58,35 @@ public class MyShapeSolver extends ShapeSolver {
             return;
         }
         rotateCW(this.shape);
-        if(match(Orientation.ROTATE_COUNTERCLOCKWISE_REV)){
+        if(match(Orientation.ROTATE_CLOCKWISE_REV)){
             return;
         }
         undisplay();
 
     }
+    /**
+     * Crops the empty space out of the array
+     *
+     * @param shape the boolean[][] to be cropped
+     */
+
+    /**
+     * Determines if a match is found between the shape and the world
+     *
+     * @param or the orientation to be displayed if a match is found
+     * @return whether a match is found
+     */
     public boolean match(Orientation or){
-        //-----Reference-----
-        //Log.d("SOLVE", "This is a test for the console");
-        //display(3, 4, Orientation.ROTATE_CLOCKWISE);
-        //loop through the entire world array with each orientation of the shape
+
+        //loop through the world array
         for (int i = 0; i <= this.world.length - this.shape.length; i++){
             for (int j = 0; j <= this.world.length - this.shape.length; j++) {
-                Log.d("Coord", "(" + i + "," + j + ")");
                 //assume that this will be a match
-                //loop through the shape object and match each pixel
-                //(i,j) is a shifting point in the world
-                //(k,l) is top left corner of shape
                 boolean match = true;
+                //find first true value in shape
+                //loop through the shape object and compare each pixel to the world
+                //(i,j) is the starting point being compared to in the world
+                //(k,l) is top left corner of shape
                 for (int k = 0; k < this.shape.length; k++) {
                     for (int l = 0; l < this.shape.length; l++) {
                         Log.d("SOLUTION", "" + this.shape[k][l] + ":" + this.world[i + k][j + l]);
@@ -92,8 +103,52 @@ public class MyShapeSolver extends ShapeSolver {
         }
         return false;
     }
-    //This method was adapted from:
-    // https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+
+    public void cropShape(boolean shape[][]){
+        /*int minRow = shape.length;
+        int maxRow = 0;
+        int minCol = shape.length;
+        int maxCol = 0;
+
+        for (int row = 0; row < shape.length; row++) {
+            for (int col = 0; col < shape.length; col++){
+                if (shape[row][col] == true){
+                    if (row < minRow){
+                        minRow = row;
+                    }
+                    if (row > maxRow) {
+                        maxRow = row;
+                    }
+                    if (col < minCol) {
+                        minCol = col;
+                    }
+                    if (col > maxCol){
+                        maxCol = col;
+                    }
+                }
+            }
+        }
+
+        boolean[][] cropped = new boolean[maxRow - minRow + 1][maxCol - minCol + 1];
+        for (int row = minRow; row <= maxRow; row++) {
+            for (int col = minCol; col <= maxCol; col++) {
+                int croppedRow = row - minRow;
+                int croppedCol = col - minCol;
+
+                cropped[croppedRow][croppedCol] = this.shape[row][col];
+            }
+        }
+
+        this.shape = cropped;
+        */
+    }
+    /**
+     * Rotates a boolean[][] clockwise
+     * This method was adapted from:
+     * https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+     *
+     * @param shape the boolean[][] to be rotated
+     */
     static void rotateCW(boolean shape[][]) {
         // Traverse each cycle
         for (int i = 0; i < shape.length / 2; i++)
@@ -110,8 +165,13 @@ public class MyShapeSolver extends ShapeSolver {
             }
         }
     }
-    //adapted from:
-    //https://www.geeksforgeeks.org/program-to-reverse-the-rows-in-a-2d-array/
+    /**
+     * reverses/mirrors a boolean[][] over the y axis
+     * This method was adapted from:
+     * https://www.geeksforgeeks.org/program-to-reverse-the-rows-in-a-2d-array/
+     *
+     * @param shape the boolean[][] to be reversed
+     */
     static void reverseArray(boolean shape[][]) {
 
         // Traverse each row of shape[][]
